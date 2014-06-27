@@ -1,0 +1,23 @@
+// history
+// jsr 310
+
+// immutable
+
+
+
+// isLeap duplication
+//Year
+public static boolean isLeap(long year) {
+        return ((year & 3) == 0) && ((year % 100) != 0 || (year % 400) == 0);
+    }
+
+//LocalDate
+public boolean isLeapYear() {
+        return IsoChronology.INSTANCE.isLeapYear(year);
+    }
+
+//IsoChronology
+    @Override
+    public boolean isLeapYear(long prolepticYear) {
+        return ((prolepticYear & 3) == 0) && ((prolepticYear % 100) != 0 || (prolepticYear % 400) == 0);
+    }
