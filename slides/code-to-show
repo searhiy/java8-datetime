@@ -1,0 +1,64 @@
+code to show
+
+Create basic date/time
+LocalDate currentDate = LocalDate.now(); // 2014-06-27
+
+LocalDate tenthFeb2014 = LocalDate.of(2014, Month.FEBRUARY, 10); // 2014-02-10
+
+LocalTime currentTime = LocalTime.now(); // 09:04:47.526
+
+LocalTime afterMidday = LocalTime.of(13, 30, 15); // 13:30:15
+
+YearMonth date = YearMonth.now(); // 2014-07
+MonthDay date = MonthDay.of(Month.FEBRUARY, 29); // --02-29
+
+LocalDateTime currentDateTime = LocalDateTime.now(); // 2014-06-27T09:04:47.527
+
+LocalDateTime secondAug2014 = LocalDateTime.of(2014, 10, 2, 12, 30); // 2014-10-02 12:30
+
+// Zone
+LocalTime currentTimeInLosAngeles = LocalTime.now(ZoneId.of("America/Los_Angeles"));
+Set<String> allZones = ZoneId.getAvailableZoneIds();
+LocalDateTime leaving = LocalDateTime.of(2014, Month.JULY, 16, 23, 00);
+ZoneId leavingZone = ZoneId.of("Asia/Tel_Aviv");
+ZonedDateTime departure = ZonedDateTime.of(leaving, leavingZone);
+ZoneId arrivingZone = ZoneId.of("America/New_York");
+ZonedDateTime arrival = departure.withZoneSameInstant(arrivingZone).plusHours(11).plusMinutes(51);
+>> Departure: Jul 16 2014  23:00
+>> Arrival: Jul 17 2014  03:51
+
+
+Information about date / time
+Month february = date.getMonth();
+int februaryIntValue = february.getValue(); // 2
+
+LocalDate date = LocalDate.of(2014, 2, 15);
+date.getYear(); // 2014
+date.getDayOfYear(); // 46
+date.lengthOfYear(); // 365
+date.isLeapYear(); // false
+
+DayOfWeek dayOfWeek = date.getDayOfWeek(); // Saturday
+
+import java.time.format.TextStyle;
+dayOfWeek.getDisplayName(TextStyle.FULL, locale); // Friday
+
+LocalTime time = LocalTime.of(15, 30, 23, 234); // 15:30:00
+time.toSecondOfDay(); // 55823
+
+Creation (dsl approach)
+Year year_2014 = Year.of(2014);
+LocalDate year_month_day = Year.of(2014).atMonth(3).atDay(23);
+LocalDate year_and_day = Year.of(1974).atDay(77); // 1974-03-18
+
+Instant
+System.out.println(Instant.now()); // 2014-07-01T20:41:13.933Z
+System.out.println(timestamp.plus(1, ChronoUnit.HOURS)); // 2014-07-01T21:41:13.933Z
+
+Adjusters
+LocalDate date = LocalDate.of(2014, Month.JULY, 16);
+System.out.println(date.with(TemporalAdjusters.firstDayOfMonth())); // 2014-07-01
+System.out.println(date.with(TemporalAdjusters.firstInMonth(DayOfWeek.MONDAY))); // 2014-07-07
+// custom asjuster. Example: pay day is on the 1st Tuesday of the month. What's the next date
+// FirstTuesdayAdjuster
+

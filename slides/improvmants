@@ -1,0 +1,11 @@
+Improvments & Changes
+* Old API packages java.util.Date and java.util.Calendar
+* Better performance
+** Calendar's are computed in unexpected times
+** New API calculates once in anosecond offset of epoch
+** The fields are not used for date/time calculation
+* Improved model and additional classes
+** Old - Calendar starts at 1970, months at 1, days at 0
+** New - local times, durations, intervals
+* Immutable classes
+** Thread safety

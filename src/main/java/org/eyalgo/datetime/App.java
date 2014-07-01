@@ -2,12 +2,21 @@ package org.eyalgo.datetime;
 
 import java.time.Clock;
 import java.time.DayOfWeek;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
+import java.time.MonthDay;
 import java.time.Year;
+import java.time.YearMonth;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAdjusters;
+import java.util.Locale;
 
 /**
  * Hello world!
@@ -28,6 +37,13 @@ public class App {
 	information();
 	space();
 	dslCreation();
+	space();
+	instant();
+	space();
+	adjusters();
+	space();
+
+	calculations();
     }
 
     private static void general() {
@@ -48,6 +64,7 @@ public class App {
     }
 
     private static void localDate() {
+	System.out.println("localDate");
 	// the current date
 	LocalDate currentDate = LocalDate.now();
 	System.out.println(currentDate); // 2014-06-27
@@ -66,6 +83,7 @@ public class App {
     }
 
     private static void localTime() {
+	System.out.println("localTime");
 	LocalTime currentTime = LocalTime.now(); // current time
 	System.out.println(currentTime); // 09:04:47.526
 
@@ -81,6 +99,7 @@ public class App {
     }
 
     private static void localDateTime() {
+	System.out.println("localDateTime");
 	// dates with times, e.g. 2014-02-18 19:08:37.950
 	LocalDateTime currentDateTime = LocalDateTime.now();
 	System.out.println(currentDateTime); // 2014-06-27T09:04:47.527
@@ -95,6 +114,7 @@ public class App {
     }
 
     private static void timeUsingZone() {
+	System.out.println("timeUsingZone");
 	// current (local) time in Los Angeles
 	LocalTime currentTimeInLosAngeles = LocalTime.now(ZoneId.of("America/Los_Angeles"));
 	System.out.println(currentTimeInLosAngeles); // 23:08:18.104
@@ -102,6 +122,16 @@ public class App {
 	// current time in UTC time zone
 	LocalTime nowInUtc = LocalTime.now(Clock.systemUTC());
 	System.out.println(nowInUtc); // 06:08:18.125
+
+	DateTimeFormatter format = DateTimeFormatter.ofPattern("MMM d yyyy  HH:mm");
+
+	LocalDateTime leaving = LocalDateTime.of(2014, Month.JULY, 16, 23, 00);
+	ZoneId leavingZone = ZoneId.of("Asia/Tel_Aviv");
+	ZonedDateTime departure = ZonedDateTime.of(leaving, leavingZone);
+	ZoneId arrivingZone = ZoneId.of("America/New_York");
+	ZonedDateTime arrival = departure.withZoneSameInstant(arrivingZone).plusHours(11).plusMinutes(51);
+	System.out.println(String.format("Departure: %s", departure.format(format)));
+	System.out.println(String.format("Arrival: %s", arrival.format(format)));
     }
 
     private static void information() {
@@ -112,6 +142,7 @@ public class App {
     }
 
     private static void monthInformation() {
+	System.out.println("monthInformation");
 	LocalDate date = LocalDate.of(2014, 2, 15); // 2014-02-15
 	Month february = date.getMonth();
 	System.out.println(february); // FEBRUARY
@@ -127,17 +158,19 @@ public class App {
     }
 
     private static void yearInformation() {
+	System.out.println("yearInformation");
 	LocalDate date = LocalDate.of(2014, 2, 15); // 2014-02-15
 	System.out.println(date.getYear()); // 2014
 	System.out.println(date.getDayOfYear()); // 46
 	System.out.println(date.lengthOfYear()); // 365
 	System.out.println(date.isLeapYear()); // false
-	
+
 	Year year_2014 = Year.of(2014);
 	System.out.println(year_2014.isLeap()); // false
     }
 
     private static void dayInformation() {
+	System.out.println("dayInformation");
 	LocalDate date = LocalDate.of(2014, 2, 15); // 2014-02-15
 	// ISO-8601 standard
 	// the day-of-week to represent, from 1 (Monday) to 7 (Sunday)
@@ -151,9 +184,17 @@ public class App {
 
 	System.out.println(date.getDayOfMonth()); // 15
 	System.out.println(date.atStartOfDay()); // 2014-02-15 00:00
+
+	System.out.println("DayOfWeek");
+	dayOfWeek = DayOfWeek.FRIDAY;
+	Locale locale = Locale.getDefault();
+	System.out.println(dayOfWeek.getDisplayName(TextStyle.FULL, locale)); // Friday
+	System.out.println(dayOfWeek.getDisplayName(TextStyle.NARROW, locale)); // F
+	System.out.println(dayOfWeek.getDisplayName(TextStyle.SHORT, locale)); // Fri
     }
 
     private static void timeInformation() {
+	System.out.println("timeInformation");
 	LocalTime time = LocalTime.of(15, 30, 23, 234); // 15:30:00
 	System.out.println(time.getHour()); // 15
 	System.out.println(time.getMinute()); // 30
@@ -164,6 +205,7 @@ public class App {
     }
 
     private static void dslCreation() {
+	System.out.println("dslCreation");
 	Year year_2014 = Year.of(2014);
 	System.out.println(year_2014); // 2014
 
@@ -172,21 +214,37 @@ public class App {
 
 	LocalDate year_and_day = Year.of(1974).atDay(77);
 	System.out.println(year_and_day); // 1974-03-18
+
+	System.out.println(YearMonth.now());
+	System.out.println(MonthDay.of(Month.FEBRUARY, 29));
     }
-    
+
+    private static void instant() {
+	System.out.println("instant");
+	Instant timestamp = Instant.now();
+	System.out.println(timestamp);
+	System.out.println(timestamp.plus(1, ChronoUnit.HOURS));
+    }
+
+    private static void adjusters() {
+	System.out.println("adjusters");
+	LocalDate date = LocalDate.of(2014, Month.JULY, 16);
+	System.out.println(date.with(TemporalAdjusters.firstDayOfMonth())); // 2014-07-01
+	System.out.println(date.with(TemporalAdjusters.firstInMonth(DayOfWeek.MONDAY))); // 2014-07-07
+    }
+
     private static void calculations() {
 	// Immutable objects are returned
 	LocalDate tomorrow = LocalDate.now().plusDays(1);
 	LocalDate yesterday = LocalDate.now().minusDays(1);
 	LocalDate lastWeek = LocalDate.now().minusWeeks(1);
 	LocalDate nextYear = LocalDate.now().plusYears(1);
-	
+
 	LocalDateTime inThreeHoursAndTwentyMinutes = LocalDateTime.now().plusHours(3).plusMinutes(20);
     }
-    
-    
 
     private static void space() {
+
 	System.out.println();
 	System.out.println();
     }
