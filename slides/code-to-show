@@ -55,10 +55,39 @@ Instant
 System.out.println(Instant.now()); // 2014-07-01T20:41:13.933Z
 System.out.println(timestamp.plus(1, ChronoUnit.HOURS)); // 2014-07-01T21:41:13.933Z
 
-Adjusters
+Temporal Adjusters
 LocalDate date = LocalDate.of(2014, Month.JULY, 16);
 System.out.println(date.with(TemporalAdjusters.firstDayOfMonth())); // 2014-07-01
 System.out.println(date.with(TemporalAdjusters.firstInMonth(DayOfWeek.MONDAY))); // 2014-07-07
 // custom asjuster. Example: pay day is on the 1st Tuesday of the month. What's the next date
 // FirstTuesdayAdjuster
 
+
+Temporal Query
+TemporalQuery<TemporalUnit> precision = TemporalQueries.precision();
+System.out.println(LocalDate.now().query(precision)); // Days
+//SchoolHolidayQuery
+//YearQuarterQuery
+
+
+
+Period and Duration
+Duration  measures an amount of time using time-based values (seconds, nanoseconds)
+A Duration is most suitable in situations that measure machine-based time, such as code that uses an Instant object. A Duration object is measured in seconds or nanoseconds and does not use date-based constructs such as years, months, and days, though the class provides methods that convert to days, hours, and minutes. A Duration can have a negative value, if it is created with an end point that occurs before the start point.
+Period uses date-based values (years, months, days).
+
+//EmploymentPeriod
+
+
+Clock
+Most temporal-based objects provide a no-argument now() method that provides the current date and time
+Clock class is optional, this feature allows you to test your code for other time zones
+
+Different Calendars
+LocalDate date = LocalDate.of(2014, Month.JULY, 16);
+JapaneseDate jdate     = JapaneseDate.from(date);
+HijrahDate hdate       = HijrahDate.from(date);
+MinguoDate mdate       = MinguoDate.from(date);
+ThaiBuddhistDate tdate = ThaiBuddhistDate.from(date);
+
+//convert from old Date & Calendar

@@ -2,12 +2,14 @@ package org.eyalgo.datetime;
 
 import java.time.Clock;
 import java.time.DayOfWeek;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
 import java.time.MonthDay;
+import java.time.Period;
 import java.time.Year;
 import java.time.YearMonth;
 import java.time.ZoneId;
@@ -16,6 +18,9 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
+import java.time.temporal.TemporalQueries;
+import java.time.temporal.TemporalQuery;
+import java.time.temporal.TemporalUnit;
 import java.util.Locale;
 
 /**
@@ -42,12 +47,18 @@ public class App {
 	space();
 	adjusters();
 	space();
-
+	queries();
+	space();
+	duration();
+	space();
+	period();
+	space();
 	calculations();
     }
 
     private static void general() {
 	// Current Time
+	System.out.println("Clock");
 	Clock clock = Clock.systemUTC();
 	System.out.println(clock.getZone().getId());
 	System.out.println(Clock.systemDefaultZone());
@@ -231,6 +242,44 @@ public class App {
 	LocalDate date = LocalDate.of(2014, Month.JULY, 16);
 	System.out.println(date.with(TemporalAdjusters.firstDayOfMonth())); // 2014-07-01
 	System.out.println(date.with(TemporalAdjusters.firstInMonth(DayOfWeek.MONDAY))); // 2014-07-07
+    }
+
+    private static void queries() {
+	System.out.println("queries");
+	TemporalQuery<TemporalUnit> precision = TemporalQueries.precision();
+	System.out.println(LocalDate.now().query(precision)); // Days
+
+	YearMonth yearMonth = YearMonth.of(2014, 6);
+	System.out.println(yearMonth.query(new SchoolHolidayQuery())); // false
+	System.out.println(YearMonth.of(2014, Month.JULY).query(new SchoolHolidayQuery())); // true
+	System.out.println(YearMonth.of(2014, 8).query(new SchoolHolidayQuery())); // true
+	System.out.println();
+	YearQuarterQuery yearQuarterQuery = new YearQuarterQuery();
+	System.out.println(YearMonth.of(2014, 6).query(yearQuarterQuery::findQuarter)); // Q2
+	System.out.println(YearMonth.of(2011, Month.DECEMBER).query(yearQuarterQuery::findQuarter)); // Q4
+    }
+
+    private static void duration() {
+	System.out.println("duration");
+	Instant t1 = Instant.now();
+	Instant t2 = Instant.now().plusSeconds(12);
+	long nanos = Duration.between(t1, t2).toNanos();
+	System.out.println(nanos);
+
+	Duration gap = Duration.ofSeconds(13); // 12000000000
+	Instant later = t1.plus(gap);
+	System.out.println(t1); // 2014-07-02T19:55:00.956Z
+	System.out.println(later); // 2014-07-02T19:55:13.956Z
+
+	System.out.println(ChronoUnit.MILLIS.between(t1, t2)); // 12000
+    }
+    
+    private static void period() {
+	System.out.println("period");
+	Period employmentPeriod = EmploymentPeriod.period(LocalDate.of(2011, 2, 1));
+	System.out.println(employmentPeriod.getYears()); // 3
+	System.out.println(employmentPeriod.getMonths()); // 5
+	System.out.println(employmentPeriod.getDays()); // 1
     }
 
     private static void calculations() {
