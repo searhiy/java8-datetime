@@ -10,19 +10,22 @@ import java.time.temporal.TemporalAccessor;
 
 public class YearQuarterQuery {
 
-    public YearQuarterQuery() {
-    }
-
-    public YearQuarter findQuarter(TemporalAccessor date) {
-	int month = date.get(ChronoField.MONTH_OF_YEAR);
-	if (month >= 1 && month <= 3) {
-	    return Q1;
-	} else if (month >= 4 && month <= 6) {
-	    return Q2;
-	} else if (month >= 7 && month <= 9) {
-	    return Q3;
-	} else {
-	    return Q4;
+	public YearQuarterQuery() {
 	}
-    }
+
+	public YearQuarter findQuarter(TemporalAccessor date) {
+		int month = date.get(ChronoField.MONTH_OF_YEAR);
+		if (month >= 1 && month <= 3) {
+			return Q1;
+		} else if (month >= 4 && month <= 6) {
+			return Q2;
+		} else if (month >= 7 && month <= 9) {
+			return Q3;
+		} else {
+			return Q4;
+		}
+	}
 }
+
+
+
