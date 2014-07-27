@@ -363,15 +363,14 @@ public class App {
 		SchoolHolidayQuery schoolHolidayQuery = new SchoolHolidayQuery();
 		
 		YearMonth yearMonth = YearMonth.of(2014, Month.JUNE);
-		yearMonth.query(schoolHolidayQuery); // false
+		Boolean isSchoolHoliday = yearMonth.query(schoolHolidayQuery); // false
 		
 		YearMonth.of(2014, Month.JULY).query(schoolHolidayQuery); // true
 		YearMonth.of(2014, 8).query(schoolHolidayQuery); // true
 
 		// Custom Query - Returns a yearly quarter (custom enum)
-		YearQuarterQuery yearQuarterQuery = new YearQuarterQuery();
-		YearMonth.of(2014, 6).query(yearQuarterQuery::findQuarter); // Q2
-		YearMonth.of(2011, Month.DECEMBER).query(yearQuarterQuery::findQuarter); // Q4
+		YearQuarter quarter2 = YearMonth.of(2014, 6).query(YearQuarterQuery::findQuarter); // Q2
+		YearQuarter quarter4 = YearMonth.of(2011, Month.DECEMBER).query(YearQuarterQuery::findQuarter); // Q4
 		
 	}
 
@@ -390,11 +389,10 @@ public class App {
 		System.out.println(YearMonth.of(2014, 8)
 				.query(new SchoolHolidayQuery())); // true
 		System.out.println();
-		YearQuarterQuery yearQuarterQuery = new YearQuarterQuery();
 		System.out.println(YearMonth.of(2014, 6).query(
-				yearQuarterQuery::findQuarter)); // Q2
+				YearQuarterQuery::findQuarter)); // Q2
 		System.out.println(YearMonth.of(2011, Month.DECEMBER).query(
-				yearQuarterQuery::findQuarter)); // Q4
+				YearQuarterQuery::findQuarter)); // Q4
 	}
 	
 	@SuppressWarnings("unused")
