@@ -23,9 +23,10 @@ public class FirstTuesdayAdjuster implements TemporalAdjuster {
 	public static void main(String[] args) {
 		LocalDate july_2014 = LocalDate.of(2014, 7, 20);
 		LocalDate nextPayday = july_2014.with(new FirstTuesdayAdjuster());
-
+		System.out.println(nextPayday);
 		LocalDate august_2009 = LocalDate.of(2009, 8, 20);
 		nextPayday = august_2009.with(new FirstTuesdayAdjuster());
+		System.out.println(nextPayday);
 	}
 }
 
