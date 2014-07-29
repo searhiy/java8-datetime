@@ -66,7 +66,6 @@ public class App {
 		System.out.println(Clock.systemDefaultZone());
 
 		// Time Zone
-
 		ZoneId zone = ZoneId.systemDefault();
 		System.out.println(Clock.system(zone));
 		System.out.println(Clock.system(ZoneId.of("Europe/Berlin")));
