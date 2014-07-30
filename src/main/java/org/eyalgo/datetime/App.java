@@ -184,12 +184,15 @@ public class App {
 		LocalTime nowInUtc = LocalTime.now(Clock.systemUTC()); // 06:08:18.125
 
 		// Calculation using zones
+		
 		LocalDateTime leaving = LocalDateTime.of(2014, Month.JULY, 16, 23, 00);
+		
 		ZoneId tlv = ZoneId.of("Asia/Tel_Aviv");
 		ZonedDateTime departure = ZonedDateTime.of(leaving, tlv);
+		
 		ZoneId ny = ZoneId.of("America/New_York");
-		ZonedDateTime arrival = departure.withZoneSameInstant(ny).plusHours(11)
-				.plusMinutes(51);
+		
+		ZonedDateTime arrival = departure.withZoneSameInstant(ny).plusHours(11).plusMinutes(51);
 
 	}
 
@@ -344,7 +347,9 @@ public class App {
 		System.out.println("adjusters");
 		
 		LocalDate date = LocalDate.of(2014, Month.JULY, 16);
+		
 		LocalDate firstDayOfJuly = date.with(TemporalAdjusters.firstDayOfMonth()); // 2014-07-01
+		
 		LocalDate dateOfFirstMonday = date.with(TemporalAdjusters.firstInMonth(DayOfWeek.MONDAY)); // 2014-07-07
 	
 	}
