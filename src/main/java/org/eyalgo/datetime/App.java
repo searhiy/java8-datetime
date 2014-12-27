@@ -55,6 +55,15 @@ public class App {
 		period();
 		space();
 		calculations();
+		space();
+		int year = 2015;
+		thanksgiving(year);
+	}
+
+	private static void thanksgiving(int year) {
+		LocalDate thanksGiving = Year.of(year).atMonth(Month.NOVEMBER).atDay(1)
+				.with(TemporalAdjusters.lastInMonth(DayOfWeek.WEDNESDAY));
+		System.out.println(thanksGiving);
 	}
 
 	private static void general() {
@@ -72,8 +81,7 @@ public class App {
 
 		// Human Readable
 		LocalDate date = LocalDate.now();
-		System.out.printf("%s-%s-%s", date.getYear(), date.getMonthValue(),
-				date.getDayOfMonth()); // 2014-6-27
+		System.out.printf("%s-%s-%s", date.getYear(), date.getMonthValue(), date.getDayOfMonth()); // 2014-6-27
 
 	}
 
@@ -89,8 +97,7 @@ public class App {
 		LocalTime fromSecondsOfDay = LocalTime.ofSecondOfDay(12345); // 03:25:45
 
 		LocalDateTime currentDateTime = LocalDateTime.now(); // 2014-06-27T09:04:47.527
-		LocalDateTime christmas2014 = LocalDateTime.of(2014, Month.DECEMBER,
-				24, 12, 0);
+		LocalDateTime christmas2014 = LocalDateTime.of(2014, Month.DECEMBER, 24, 12, 0);
 
 	}
 
@@ -140,8 +147,7 @@ public class App {
 		System.out.println(secondAug2014); // 2014-10-02T12:30
 
 		// 2014-12-24 12:00
-		LocalDateTime christmas2014 = LocalDateTime.of(2014, Month.DECEMBER,
-				24, 12, 0);
+		LocalDateTime christmas2014 = LocalDateTime.of(2014, Month.DECEMBER, 24, 12, 0);
 		System.out.println(christmas2014); // 2014-12-24T12:00
 	}
 
@@ -149,49 +155,43 @@ public class App {
 		System.out.println("timeUsingZone");
 
 		// current (local) time in Los Angeles
-		LocalTime currentTimeInLosAngeles = LocalTime.now(ZoneId
-				.of("America/Los_Angeles"));
+		LocalTime currentTimeInLosAngeles = LocalTime.now(ZoneId.of("America/Los_Angeles"));
 		System.out.println(currentTimeInLosAngeles); // 23:08:18.104
 
 		// current time in UTC time zone
 		LocalTime nowInUtc = LocalTime.now(Clock.systemUTC());
 		System.out.println(nowInUtc); // 06:08:18.125
 
-		DateTimeFormatter format = DateTimeFormatter
-				.ofPattern("MMM d yyyy  HH:mm");
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("MMM d yyyy  HH:mm");
 
 		LocalDateTime leaving = LocalDateTime.of(2014, Month.JULY, 16, 23, 00);
 		ZoneId leavingZone = ZoneId.of("Asia/Tel_Aviv");
 		ZonedDateTime departure = ZonedDateTime.of(leaving, leavingZone);
 		ZoneId arrivingZone = ZoneId.of("America/New_York");
-		ZonedDateTime arrival = departure.withZoneSameInstant(arrivingZone)
-				.plusHours(11).plusMinutes(51);
-		System.out.println(String.format("Departure: %s",
-				departure.format(format)));
-		System.out
-				.println(String.format("Arrival: %s", arrival.format(format)));
+		ZonedDateTime arrival = departure.withZoneSameInstant(arrivingZone).plusHours(11).plusMinutes(51);
+		System.out.println(String.format("Departure: %s", departure.format(format)));
+		System.out.println(String.format("Arrival: %s", arrival.format(format)));
 	}
 
 	@SuppressWarnings("unused")
 	private static void timeUsingZoneExamples() {
 
 		// current (local) time in Los Angeles
-		LocalTime currentTimeInLosAngeles = LocalTime.now(ZoneId
-				.of("America/Los_Angeles"));
+		LocalTime currentTimeInLosAngeles = LocalTime.now(ZoneId.of("America/Los_Angeles"));
 
 		// current time in UTC time zone
 		// Injecting Clock. We can do tests based on different zones
 		LocalTime nowInUtc = LocalTime.now(Clock.systemUTC()); // 06:08:18.125
 
 		// Calculation using zones
-		
+
 		LocalDateTime leaving = LocalDateTime.of(2014, Month.JULY, 16, 23, 00);
-		
+
 		ZoneId tlv = ZoneId.of("Asia/Tel_Aviv");
 		ZonedDateTime departure = ZonedDateTime.of(leaving, tlv);
-		
+
 		ZoneId ny = ZoneId.of("America/New_York");
-		
+
 		ZonedDateTime arrival = departure.withZoneSameInstant(ny).plusHours(11).plusMinutes(51);
 
 	}
@@ -238,8 +238,7 @@ public class App {
 		System.out.println(februaryIntValue); // 2
 
 		// 28 , 29
-		System.out.println(String.format("%s , %s", february.minLength(),
-				february.maxLength()));
+		System.out.println(String.format("%s , %s", february.minLength(), february.maxLength()));
 
 		Month firstMonthOfQuarter = february.firstMonthOfQuarter();
 		System.out.println(firstMonthOfQuarter); // JANUARY
@@ -324,13 +323,13 @@ public class App {
 
 		// Instant is useful for generating a time stamp to represent machine time.
 		Instant timestamp = Instant.now();
-		
+
 		// How many seconds have occurred since the beginning of the Java epoch.
 		long secondsFromEpoch = Instant.ofEpochSecond(0L).until(Instant.now(), ChronoUnit.SECONDS);
-		
+
 		// Convert "machine time" to human units
 		LocalDateTime humanTime = LocalDateTime.ofInstant(timestamp, ZoneId.systemDefault());
-		
+
 	}
 
 	private static void instant() {
@@ -345,37 +344,37 @@ public class App {
 	@SuppressWarnings("unused")
 	private static void adjusters() {
 		System.out.println("adjusters");
-		
+
 		LocalDate date = LocalDate.of(2014, Month.JULY, 16);
-		
+
 		LocalDate firstDayOfJuly = date.with(TemporalAdjusters.firstDayOfMonth()); // 2014-07-01
-		
+
 		LocalDate dateOfFirstMonday = date.with(TemporalAdjusters.firstInMonth(DayOfWeek.MONDAY)); // 2014-07-07
-	
+
 	}
-	
+
 	@SuppressWarnings("unused")
 	private static void queriesInfo() {
-		
+
 		// Smallest unit
 		TemporalQuery<TemporalUnit> precision = TemporalQueries.precision();
 		LocalDate.now().query(precision); // Days
 		LocalTime.now().query(precision); // Nanos
 		YearMonth.now().query(precision); // Months
 
-		// Custom query - check is month in school holiday 
+		// Custom query - check is month in school holiday
 		SchoolHolidayQuery schoolHolidayQuery = new SchoolHolidayQuery();
-		
+
 		YearMonth yearMonth = YearMonth.of(2014, Month.JUNE);
 		Boolean isSchoolHoliday = yearMonth.query(schoolHolidayQuery); // false
-		
+
 		YearMonth.of(2014, Month.JULY).query(schoolHolidayQuery); // true
 		YearMonth.of(2014, 8).query(schoolHolidayQuery); // true
 
 		// Custom Query - Returns a yearly quarter (custom enum)
 		YearQuarter quarter2 = YearMonth.of(2014, 6).query(YearQuarterQuery::findQuarter); // Q2
 		YearQuarter quarter4 = YearMonth.of(2011, Month.DECEMBER).query(YearQuarterQuery::findQuarter); // Q4
-		
+
 	}
 
 	private static void queries() {
@@ -384,36 +383,31 @@ public class App {
 		System.out.println(LocalDate.now().query(precision)); // Days
 		System.out.println(LocalTime.now().query(precision)); // Nanos
 		System.out.println(YearMonth.now().query(precision)); // Months
-		
 
 		YearMonth yearMonth = YearMonth.of(2014, 6);
 		System.out.println(yearMonth.query(new SchoolHolidayQuery())); // false
-		System.out.println(YearMonth.of(2014, Month.JULY).query(
-				new SchoolHolidayQuery())); // true
-		System.out.println(YearMonth.of(2014, 8)
-				.query(new SchoolHolidayQuery())); // true
+		System.out.println(YearMonth.of(2014, Month.JULY).query(new SchoolHolidayQuery())); // true
+		System.out.println(YearMonth.of(2014, 8).query(new SchoolHolidayQuery())); // true
 		System.out.println();
-		System.out.println(YearMonth.of(2014, 6).query(
-				YearQuarterQuery::findQuarter)); // Q2
-		System.out.println(YearMonth.of(2011, Month.DECEMBER).query(
-				YearQuarterQuery::findQuarter)); // Q4
+		System.out.println(YearMonth.of(2014, 6).query(YearQuarterQuery::findQuarter)); // Q2
+		System.out.println(YearMonth.of(2011, Month.DECEMBER).query(YearQuarterQuery::findQuarter)); // Q4
 	}
-	
+
 	@SuppressWarnings("unused")
 	private static void durationInfo() {
-		
+
 		// If you want to measure machine-based time
 		// A Duration can have a negative value
 		Instant t1 = Instant.now();
 		Instant t2 = Instant.now().plusSeconds(12);
 		long nanosecondsBetweenTwoInstants = Duration.between(t1, t2).toNanos();
-		
-		// Using ChronoUnit enum 
+
+		// Using ChronoUnit enum
 		long millisecondsBetweenTwoInstants = ChronoUnit.MILLIS.between(t1, t2); // 12000
-		
+
 		Duration gap = Duration.ofSeconds(13);
 		Instant later = t1.plus(gap);
-		
+
 	}
 
 	private static void duration() {
@@ -430,21 +424,20 @@ public class App {
 
 		System.out.println(ChronoUnit.MILLIS.between(t1, t2)); // 12000
 	}
-	
+
 	@SuppressWarnings("unused")
 	private static void periodInfo() {
-		
+
 		Period employmentPeriod = EmploymentPeriod.period(LocalDate.of(2011, Month.FEBRUARY, 1));
 		int years = employmentPeriod.getYears(); // 3
 		int months = employmentPeriod.getMonths(); // 5
 		int days = employmentPeriod.getDays(); // 1
-		
+
 	}
 
 	private static void period() {
 		System.out.println("period");
-		Period employmentPeriod = EmploymentPeriod.period(LocalDate.of(2011, Month.FEBRUARY,
-				1));
+		Period employmentPeriod = EmploymentPeriod.period(LocalDate.of(2011, Month.FEBRUARY, 1));
 		System.out.println(employmentPeriod.getYears()); // 3
 		System.out.println(employmentPeriod.getMonths()); // 5
 		System.out.println(employmentPeriod.getDays()); // 1
@@ -458,23 +451,22 @@ public class App {
 		LocalDate yesterday = LocalDate.now().minusDays(1);
 		LocalDate lastWeek = LocalDate.now().minusWeeks(1);
 		LocalDate nextYear = LocalDate.now().plusYears(1);
-		LocalDateTime inThreeHoursAndTwentyMinutes = LocalDateTime.now()
-				.plusHours(3).plusMinutes(20);
+		LocalDateTime inThreeHoursAndTwentyMinutes = LocalDateTime.now().plusHours(3).plusMinutes(20);
 
 	}
-	
+
 	@SuppressWarnings("unused")
 	private static void convertLegacy() {
-		
+
 		// Old to new
 		Date date = new Date();
 		LocalDateTime localDateTime = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
-		
+
 		// New to old
 		LocalDateTime now = LocalDateTime.now();
 		Instant instant = now.atZone(ZoneId.systemDefault()).toInstant();
 		Date dateFromOld = Date.from(instant);
-		
+
 	}
 
 	private static void space() {
