@@ -1,4 +1,4 @@
-package org.eyalgo.datetime;
+package presentation.jsr310.duration;
 
 import java.time.Duration;
 import java.time.Instant;
