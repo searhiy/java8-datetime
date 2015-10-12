@@ -1,4 +1,4 @@
-package presentation.jsr310.parse;
+package presentation.jsr310.parseandformat;
 
 import static java.time.temporal.ChronoField.DAY_OF_MONTH;
 import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
@@ -10,7 +10,7 @@ import java.time.Year;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 
-public class ParsingFormatting {
+public class Laucher {
 
 	public static void main(String[] args) {
 		

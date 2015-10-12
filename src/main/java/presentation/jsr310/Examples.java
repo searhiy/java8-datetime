@@ -1,9 +1,6 @@
 package presentation.jsr310;
 
-import presentation.jsr310.period.EmploymentPeriod;
-import presentation.jsr310.query.SchoolHolidayQuery;
-import presentation.jsr310.query.YearQuarter;
-import presentation.jsr310.query.YearQuarterQuery;
+import presentation.jsr310.periodandduration.PeriodLauncher;
 
 import java.time.Clock;
 import java.time.DayOfWeek;
@@ -22,10 +19,6 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalQueries;
-import java.time.temporal.TemporalQuery;
-import java.time.temporal.TemporalUnit;
-import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -33,34 +26,6 @@ import java.util.Locale;
  *
  */
 public class Examples {
-	public static void main(String[] args) {
-		general();
-		space();
-		localDate();
-		space();
-		/*localTime();
-		space();
-		localDateTime();
-		space();
-		timeUsingZone();
-		space();
-		information();
-		space();
-		dslCreation();
-		space();
-		instant();
-		space();
-		adjusters();
-		space();
-		duration();
-		space();
-		period();
-		space();
-		calculations();
-		space();
-		int year = 2015;
-		thanksgiving(year);*/
-	}
 
 	private static void general() {
 
@@ -79,72 +44,6 @@ public class Examples {
 		LocalDate date = LocalDate.now();
 		System.out.printf("%s-%s-%s", date.getYear(), date.getMonthValue(), date.getDayOfMonth()); // 2014-6-27
 
-	}
-
-	@SuppressWarnings("unused")
-	private static void basicClasses() {
-
-		LocalDate currentDate = LocalDate.now(); // 2014-06-27
-		LocalDate tenthFeb2014 = LocalDate.of(2014, Month.FEBRUARY, 10);
-		LocalDate sixtyFifthDayOf2010 = LocalDate.ofYearDay(2010, 65); // 2014-03-06
-
-		LocalTime currentTime = LocalTime.now(); // current time 09:04:47.526
-		LocalTime midday = LocalTime.of(12, 0); // 12:00
-		LocalTime fromSecondsOfDay = LocalTime.ofSecondOfDay(12345); // 03:25:45
-
-		LocalDateTime currentDateTime = LocalDateTime.now(); // 2014-06-27T09:04:47.527
-		LocalDateTime christmas2014 = LocalDateTime.of(2014, Month.DECEMBER, 24, 12, 0);
-
-	}
-
-	private static void localDate() {
-		System.out.println("localDate");
-		// the current date
-		LocalDate currentDate = LocalDate.now();
-		System.out.println(currentDate); // 2014-06-27
-
-		// 2014-02-10
-		LocalDate tenthFeb2014 = LocalDate.of(2014, Month.FEBRUARY, 10);
-		System.out.println(tenthFeb2014); // 2014-02-10
-
-		// months values start at 1 (2014-08-01)
-		LocalDate firstAug2014 = LocalDate.of(2014, 8, 1);
-		System.out.println(firstAug2014); // 2014-08-01
-
-		// the 65th day of 2010 (2010-03-06)
-		LocalDate sixtyFifthDayOf2010 = LocalDate.ofYearDay(2010, 65);
-		System.out.println(sixtyFifthDayOf2010); // 2014-03-06
-	}
-
-	private static void localTime() {
-		System.out.println("localTime");
-		LocalTime currentTime = LocalTime.now(); // current time
-		System.out.println(currentTime); // 09:04:47.526
-
-		LocalTime midday = LocalTime.of(12, 0); // 12:00
-		System.out.println(midday); // 12:00
-
-		LocalTime afterMidday = LocalTime.of(13, 30, 15); // 13:30:15
-		System.out.println(afterMidday); // 13:30:15
-
-		// 12345th second of day (03:25:45)
-		LocalTime fromSecondsOfDay = LocalTime.ofSecondOfDay(12345);
-		System.out.println(fromSecondsOfDay); // 03:25:45
-	}
-
-	private static void localDateTime() {
-		System.out.println("localDateTime");
-		// dates with times, e.g. 2014-02-18 19:08:37.950
-		LocalDateTime currentDateTime = LocalDateTime.now();
-		System.out.println(currentDateTime); // 2014-06-27T09:04:47.527
-
-		// 2014-10-02 12:30
-		LocalDateTime secondAug2014 = LocalDateTime.of(2014, 10, 2, 12, 30);
-		System.out.println(secondAug2014); // 2014-10-02T12:30
-
-		// 2014-12-24 12:00
-		LocalDateTime christmas2014 = LocalDateTime.of(2014, Month.DECEMBER, 24, 12, 0);
-		System.out.println(christmas2014); // 2014-12-24T12:00
 	}
 
 	private static void timeUsingZone() {
@@ -169,28 +68,6 @@ public class Examples {
 		System.out.println(String.format("Arrival: %s", arrival.format(format)));
 	}
 
-	@SuppressWarnings("unused")
-	private static void timeUsingZoneExamples() {
-
-		// current (local) time in Los Angeles
-		LocalTime currentTimeInLosAngeles = LocalTime.now(ZoneId.of("America/Los_Angeles"));
-
-		// current time in UTC time zone
-		// Injecting Clock. We can do tests based on different zones
-		LocalTime nowInUtc = LocalTime.now(Clock.systemUTC()); // 06:08:18.125
-
-		// Calculation using zones
-
-		LocalDateTime leaving = LocalDateTime.of(2014, Month.JULY, 16, 23, 00);
-
-		ZoneId tlv = ZoneId.of("Asia/Tel_Aviv");
-		ZonedDateTime departure = ZonedDateTime.of(leaving, tlv);
-
-		ZoneId ny = ZoneId.of("America/New_York");
-
-		ZonedDateTime arrival = departure.withZoneSameInstant(ny).plusHours(11).plusMinutes(51);
-
-	}
 
 	private static void information() {
 		monthInformation();
@@ -314,78 +191,9 @@ public class Examples {
 		System.out.println(MonthDay.of(Month.FEBRUARY, 29));
 	}
 
-	@SuppressWarnings("unused")
-	private static void instantInformation() {
 
-		// Instant is useful for generating a time stamp to represent machine time.
-		Instant timestamp = Instant.now();
 
-		// How many seconds have occurred since the beginning of the Java epoch.
-		long secondsFromEpoch = Instant.ofEpochSecond(0L).until(Instant.now(), ChronoUnit.SECONDS);
 
-		// Convert "machine time" to human units
-		LocalDateTime humanTime = LocalDateTime.ofInstant(timestamp, ZoneId.systemDefault());
-
-	}
-
-	private static void instant() {
-		System.out.println("instant");
-		// This class is useful for generating a time stamp to represent machine
-		// time.
-		Instant timestamp = Instant.now();
-		System.out.println(timestamp);
-		System.out.println(timestamp.plus(1, ChronoUnit.HOURS));
-	}
-
-	@SuppressWarnings("unused")
-	private static void durationInfo() {
-
-		// If you want to measure machine-based time
-		// A Duration can have a negative value
-		Instant t1 = Instant.now();
-		Instant t2 = Instant.now().plusSeconds(12);
-		long nanosecondsBetweenTwoInstants = Duration.between(t1, t2).toNanos();
-
-		// Using ChronoUnit enum
-		long millisecondsBetweenTwoInstants = ChronoUnit.MILLIS.between(t1, t2); // 12000
-
-		Duration gap = Duration.ofSeconds(13);
-		Instant later = t1.plus(gap);
-
-	}
-
-	private static void duration() {
-		System.out.println("duration");
-		Instant t1 = Instant.now();
-		Instant t2 = Instant.now().plusSeconds(12);
-		long nanos = Duration.between(t1, t2).toNanos();
-		System.out.println(nanos);
-
-		Duration gap = Duration.ofSeconds(13); // 12000000000
-		Instant later = t1.plus(gap);
-		System.out.println(t1); // 2014-07-02T19:55:00.956Z
-		System.out.println(later); // 2014-07-02T19:55:13.956Z
-
-		System.out.println(ChronoUnit.MILLIS.between(t1, t2)); // 12000
-	}
-
-	@SuppressWarnings("unused")
-	private static void periodInfo() {
-
-		Period employmentPeriod = EmploymentPeriod.period(LocalDate.of(2011, Month.FEBRUARY, 1));
-		int years = employmentPeriod.getYears(); // 3
-		int months = employmentPeriod.getMonths(); // 5
-		int days = employmentPeriod.getDays(); // 1
-
-	}
-
-	private static void period() {
-		System.out.println("period");
-		Period employmentPeriod = EmploymentPeriod.period(LocalDate.of(2011, Month.FEBRUARY, 1));
-		System.out.println(employmentPeriod.getYears()); // 3
-		System.out.println(employmentPeriod.getMonths()); // 5
-		System.out.println(employmentPeriod.getDays()); // 1
-	}
 
 	@SuppressWarnings("unused")
 	private static void calculations() {
@@ -396,20 +204,6 @@ public class Examples {
 		LocalDate lastWeek = LocalDate.now().minusWeeks(1);
 		LocalDate nextYear = LocalDate.now().plusYears(1);
 		LocalDateTime inThreeHoursAndTwentyMinutes = LocalDateTime.now().plusHours(3).plusMinutes(20);
-
-	}
-
-	@SuppressWarnings("unused")
-	private static void convertLegacy() {
-
-		// Old to new
-		Date date = new Date();
-		LocalDateTime localDateTime = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
-
-		// New to old
-		LocalDateTime now = LocalDateTime.now();
-		Instant instant = now.atZone(ZoneId.systemDefault()).toInstant();
-		Date dateFromOld = Date.from(instant);
 
 	}
 

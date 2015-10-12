@@ -1,13 +1,9 @@
-package presentation.jsr310.zone;
+package presentation.jsr310.zoneandoffset;
 
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.Month;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 
-public class SampleZone {
+public class ZoneLauncher {
 
     public static void main(String[] args) {
         
@@ -36,5 +32,27 @@ public class SampleZone {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-d  HH:mm");
         System.out.println(String.format("Departure: %s", departure.format(format)));
         System.out.println(String.format("Arrival: %s", arrival.format(format)));
+    }
+
+    private static void timeUsingZoneExamples() {
+
+        // current (local) time in Los Angeles
+        LocalTime currentTimeInLosAngeles = LocalTime.now(ZoneId.of("America/Los_Angeles"));
+
+        // current time in UTC time zone
+        // Injecting Clock. We can do tests based on different zones
+        LocalTime nowInUtc = LocalTime.now(Clock.systemUTC()); // 06:08:18.125
+
+        // Calculation using zones
+
+        LocalDateTime leaving = LocalDateTime.of(2014, Month.JULY, 16, 23, 00);
+
+        ZoneId tlv = ZoneId.of("Asia/Tel_Aviv");
+        ZonedDateTime departure = ZonedDateTime.of(leaving, tlv);
+
+        ZoneId ny = ZoneId.of("America/New_York");
+
+        ZonedDateTime arrival = departure.withZoneSameInstant(ny).plusHours(11).plusMinutes(51);
+
     }
 }

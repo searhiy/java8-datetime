@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
-public class SampleNewWayBasic {
+public class Launcher {
 
 	public static void main(String[] args) {
 		

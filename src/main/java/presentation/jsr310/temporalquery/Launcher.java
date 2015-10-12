@@ -1,4 +1,4 @@
-package presentation.jsr310.query;
+package presentation.jsr310.temporalquery;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

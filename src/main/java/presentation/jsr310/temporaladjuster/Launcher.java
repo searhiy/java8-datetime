@@ -1,4 +1,4 @@
-package presentation.jsr310.adjusters;
+package presentation.jsr310.temporaladjuster;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
