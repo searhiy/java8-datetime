@@ -38,6 +38,8 @@ public class Launcher {
         // custom adjuster
         customAdjuster();
 
+        // next() nextOrSame() previous() previousOrSame()
+
     }
 
     private static void adjusters() {

@@ -14,7 +14,7 @@ import java.util.Locale;
 /**
  * Created by Serhii K. on 07.10.2015.
  */
-public class Launcher {
+public class ChronoLauncher {
 
     public static void main(String[] args) {
         Year year1 = Year.now();
@@ -48,23 +48,23 @@ public class Launcher {
     private static void convert1(){
         LocalDate date = LocalDate.of(1996, Month.OCTOBER, 29);
         System.out.printf("%s%n",
-                Launcher.toString(date, JapaneseChronology.INSTANCE));      // H8.10.29
+                ChronoLauncher.toString(date, JapaneseChronology.INSTANCE));      // H8.10.29
         System.out.printf("%s%n",
-                Launcher.toString(date, MinguoChronology.INSTANCE));        // 1 085-10-29
+                ChronoLauncher.toString(date, MinguoChronology.INSTANCE));        // 1 085-10-29
         System.out.printf("%s%n",
-                Launcher.toString(date, ThaiBuddhistChronology.INSTANCE));  // B.E. 2539-10-29
+                ChronoLauncher.toString(date, ThaiBuddhistChronology.INSTANCE));  // B.E. 2539-10-29
         System.out.printf("%s%n",
-                Launcher.toString(date, HijrahChronology.INSTANCE));        // 6/16/17 AH
+                ChronoLauncher.toString(date, HijrahChronology.INSTANCE));        // 6/16/17 AH
     }
 
     private static void convert2(){
-        System.out.printf("%s%n", Launcher.fromString("10/29/0008 H",
+        System.out.printf("%s%n", ChronoLauncher.fromString("10/29/0008 H",
                 JapaneseChronology.INSTANCE));
-        System.out.printf("%s%n", Launcher.fromString("10/29/0085 1",
+        System.out.printf("%s%n", ChronoLauncher.fromString("10/29/0085 1",
                 MinguoChronology.INSTANCE));
-        System.out.printf("%s%n", Launcher.fromString("10/29/2539 B.E.",
+        System.out.printf("%s%n", ChronoLauncher.fromString("10/29/2539 B.E.",
                 ThaiBuddhistChronology.INSTANCE));
-        System.out.printf("%s%n", Launcher.fromString("6/16/1417 1",
+        System.out.printf("%s%n", ChronoLauncher.fromString("6/16/1417 1",
                 HijrahChronology.INSTANCE));
     }
 

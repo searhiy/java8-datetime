@@ -3,6 +3,8 @@ package presentation.jsr310.zoneandoffset;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
+import java.time.zone.ZoneRules;
+import java.time.zone.ZoneRulesProvider;
 import java.util.*;
 
 public class ZoneLauncher {
@@ -10,8 +12,13 @@ public class ZoneLauncher {
     public static void main(String[] args) {
         printAllTimeZones();
         zonedDateTime();
-        offsetDateTime();
 
+        ZoneRules kiev = ZoneRulesProvider.getRules("Europe/Kiev", false);
+        System.out.println(kiev.getTransitionRules());
+
+        // RESTRICTION: you cannot receive all zones by continents
+
+        offsetDateTime();
     }
 
     private static void printAllTimeZones() {
@@ -76,6 +83,7 @@ public class ZoneLauncher {
         System.out.println(odt);    // 2015-10-13T11:14:03.073-04:00
 
         OffsetTime ot = OffsetTime.ofInstant(Instant.now(), ZoneId.of("America/Los_Angeles"));
+        //OffsetTime ot1 = OffsetTime.ofInstant(Instant.now(), ZoneOffset.of("-2"));
         System.out.println(ot);     // 01:14:03.073-07:00
     }
 }

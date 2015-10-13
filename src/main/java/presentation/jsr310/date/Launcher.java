@@ -33,6 +33,10 @@ public class Launcher {
         System.out.println(time1);                  // 06:15
         System.out.println(time2);                  // 06:15:30
         System.out.println(time3);                  // 06:15:30.000000200
+        LocalTime trancatedTime1 = time3.truncatedTo(ChronoUnit.SECONDS);
+        System.out.println(trancatedTime1);          // 06:15:30
+        LocalTime trancatedTime2 = time3.truncatedTo(ChronoUnit.HOURS);
+        System.out.println(trancatedTime2);          // 06:00
 
         // LocalDateTime  Contains both a date and time but no time zone.
         LocalDateTime dateTime1 = LocalDateTime.of(2015, Month.JANUARY, 20, 6, 15, 30);
@@ -55,10 +59,14 @@ public class Launcher {
         MonthDay date = MonthDay.of(Month.FEBRUARY, 29);
         boolean validLeapYear = date.isValidYear(2010);
         System.out.println(validLeapYear);          // false
+        System.out.println(date.range(ChronoField.MONTH_OF_YEAR));
 
         // Year
         boolean validLeapYear1 = Year.of(2012).isLeap();
         System.out.println(validLeapYear1);         // true
+
+        Year year = Year.of(2012);
+        System.out.println(year.range(ChronoField.YEAR));
 
         boolean isSupported1 = LocalDate.now().isSupported(ChronoField.CLOCK_HOUR_OF_DAY); // false
         Instant instant = Instant.now();
