@@ -1,6 +1,8 @@
 package presentation.jsr310.date;
 
 import java.time.*;
+import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
 
 /**
  * Created by Serhii K. on 12.10.2015.
@@ -57,6 +59,10 @@ public class Launcher {
         // Year
         boolean validLeapYear1 = Year.of(2012).isLeap();
         System.out.println(validLeapYear1);         // true
+
+        boolean isSupported1 = LocalDate.now().isSupported(ChronoField.CLOCK_HOUR_OF_DAY); // false
+        Instant instant = Instant.now();
+        boolean isSupported2 = instant.isSupported(ChronoUnit.DAYS);    // false
 
     }
 }

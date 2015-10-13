@@ -2,57 +2,80 @@ package presentation.jsr310.zoneandoffset;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
+import java.util.*;
 
 public class ZoneLauncher {
 
     public static void main(String[] args) {
-        
-        LocalTime now = LocalTime.now();
-        LocalTime currentTimeInLosAngeles = LocalTime.now(ZoneId.of("America/Los_Angeles"));
-        System.out.println(String.format("now is %s and in LA is %s", now, currentTimeInLosAngeles));
+        printAllTimeZones();
+        zonedDateTime();
+        offsetDateTime();
 
-        oneWayToShow();
     }
-    
-    private static void oneWayToShow() {
-        
-        ZoneId leavingZone = ZoneId.of("Asia/Tel_Aviv");
-        ZoneId arrivingZone = ZoneId.of("America/New_York");
-        
-        LocalDateTime leaving = LocalDateTime.of(2014, Month.JULY, 16, 23, 00);
+
+    private static void printAllTimeZones() {
+        Set<String> allZones = ZoneId.getAvailableZoneIds();
+        LocalDateTime dt = LocalDateTime.now();
+
+        // Create a List using the set of zones and sort it.
+        List<String> zoneList = new ArrayList<String>(allZones);
+        //Collections.sort(zoneList);
+
+        for (String s : zoneList) {
+            ZoneId zone = ZoneId.of(s);
+            ZonedDateTime zdt = dt.atZone(zone);
+            ZoneOffset offset = zdt.getOffset();
+            int secondsOfHour = offset.getTotalSeconds() % (60 * 60);  // just seconds!!!
+
+            String out = String.format("%35s %10s%n", zone, offset);
+            System.out.printf(out);
+        }
+    }
+
+    private static void zonedDateTime() {
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("MMM d yyyy  hh:mm a");
+
+        // Leaving from San Francisco on July 20, 2013, at 7:30 p.m.
+        LocalDateTime leaving = LocalDateTime.of(2015, Month.JULY, 20, 19, 30);
+        ZoneId leavingZone = ZoneId.of("America/Los_Angeles");
         ZonedDateTime departure = ZonedDateTime.of(leaving, leavingZone);
-        
-        ZonedDateTime arrival = departure.withZoneSameInstant(arrivingZone).plusHours(11).plusMinutes(51);
 
-        printTravelTimes(departure, arrival);
-        
+        String out1 = departure.format(format);
+        System.out.printf("LEAVING:  %s (%s)%n", out1, leavingZone);
+
+        // Flight is 10 hours and 50 minutes, or 650 minutes
+        ZoneId arrivingZone = ZoneId.of("Asia/Tokyo");
+        ZonedDateTime arrival = departure.withZoneSameInstant(arrivingZone)
+                .plusHours(10).plusMinutes(50);
+
+        String out2 = arrival.format(format);
+        System.out.printf("ARRIVING: %s (%s)%n", out2, arrivingZone);
+
+        // літній час
+        if (arrivingZone.getRules().isDaylightSavings(arrival.toInstant())) {
+            System.out.printf("  (%s daylight saving time will be in effect.)%n", arrivingZone);
+        } else {
+            System.out.printf("  (%s standard time will be in effect.)%n", arrivingZone);
+        }
     }
 
-    private static void printTravelTimes(ZonedDateTime departure, ZonedDateTime arrival) {
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-d  HH:mm");
-        System.out.println(String.format("Departure: %s", departure.format(format)));
-        System.out.println(String.format("Arrival: %s", arrival.format(format)));
-    }
+    private static void offsetDateTime() {
+        // Find the last Thursday in October 2015.
+        LocalDateTime localDate = LocalDateTime.of(2015, Month.OCTOBER, 20, 19, 30);
+        ZoneOffset offset = ZoneOffset.of("-08:00");
 
-    private static void timeUsingZoneExamples() {
+        OffsetDateTime offsetDate = OffsetDateTime.of(localDate, offset);
+        OffsetDateTime lastThursday =
+                offsetDate.with(TemporalAdjusters.lastInMonth(DayOfWeek.THURSDAY));
+        System.out.printf("The last Thursday in October 2015 is the %sth.%n",
+                lastThursday.getDayOfMonth());
 
-        // current (local) time in Los Angeles
-        LocalTime currentTimeInLosAngeles = LocalTime.now(ZoneId.of("America/Los_Angeles"));
 
-        // current time in UTC time zone
-        // Injecting Clock. We can do tests based on different zones
-        LocalTime nowInUtc = LocalTime.now(Clock.systemUTC()); // 06:08:18.125
+        OffsetDateTime odt = OffsetDateTime.of(LocalDateTime.now(), ZoneOffset.of("-4"));
+        System.out.println(odt);    // 2015-10-13T11:14:03.073-04:00
 
-        // Calculation using zones
-
-        LocalDateTime leaving = LocalDateTime.of(2014, Month.JULY, 16, 23, 00);
-
-        ZoneId tlv = ZoneId.of("Asia/Tel_Aviv");
-        ZonedDateTime departure = ZonedDateTime.of(leaving, tlv);
-
-        ZoneId ny = ZoneId.of("America/New_York");
-
-        ZonedDateTime arrival = departure.withZoneSameInstant(ny).plusHours(11).plusMinutes(51);
-
+        OffsetTime ot = OffsetTime.ofInstant(Instant.now(), ZoneId.of("America/Los_Angeles"));
+        System.out.println(ot);     // 01:14:03.073-07:00
     }
 }

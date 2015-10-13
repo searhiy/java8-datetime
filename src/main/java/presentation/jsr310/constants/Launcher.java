@@ -2,6 +2,7 @@ package presentation.jsr310.constants;
 
 import java.time.*;
 import java.time.format.TextStyle;
+import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Locale;
@@ -30,20 +31,18 @@ public class Launcher {
 
         // useful constants
         LocalTime lt1 = LocalTime.MIDNIGHT;         // 00:00
-        System.out.println(lt1);
         LocalTime lt2 = LocalTime.NOON;             // 12:00
-        System.out.println(lt2);
         LocalTime lt3 = LocalTime.MIN;              // 00:00
-        System.out.println(lt3);
         LocalTime lt4 = LocalTime.MAX;              // 23:59:59.999999999
-        System.out.println(lt4);
         LocalDate lt5 = LocalDate.MAX;              // +999999999-12-31
-        System.out.println(lt5);
         LocalDate lt6 = LocalDate.MIN;              // -999999999-01-01
-        System.out.println(lt6);
         LocalDateTime lt7 = LocalDateTime.MAX;      // +999999999-12-31T23:59:59.999999999
-        System.out.println(lt7);
         LocalDateTime lt8 = LocalDateTime.MAX;      // +999999999-12-31T23:59:59.999999999
-        System.out.println(lt8);
+
+        ChronoField millisecondsOfDay = ChronoField.MILLI_OF_DAY;
+        System.out.println(millisecondsOfDay);      // MilliOfDay
+        ChronoField secondsOfMinute = ChronoField.SECOND_OF_MINUTE;
+        ChronoField daysOfYear = ChronoField.DAY_OF_YEAR;
+
     }
 }
