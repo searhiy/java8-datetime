@@ -5,9 +5,6 @@ import java.time.temporal.TemporalAccessor;
 
 public class YearQuarterQuery {
 
-	public YearQuarterQuery() {
-	}
-
 	public static YearQuarter findQuarter(TemporalAccessor date) {
 		int month = date.get(ChronoField.MONTH_OF_YEAR);
 		if (month >= 1 && month <= 3) {

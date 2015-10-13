@@ -1,12 +1,7 @@
 package presentation.jsr310.temporalquery;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.Month;
-import java.time.YearMonth;
-import java.time.temporal.TemporalQueries;
-import java.time.temporal.TemporalQuery;
-import java.time.temporal.TemporalUnit;
+import java.time.*;
+import java.time.temporal.*;
 
 /**
  * Created by Serhii K. on 07.10.2015.
@@ -14,54 +9,61 @@ import java.time.temporal.TemporalUnit;
 public class Launcher {
 
     public static void main(String[] args) {
-        queries();
-        space();
-        queriesInfo();
-        space();
+
+        // точність
+        TemporalQuery<TemporalUnit> query = TemporalQueries.precision();
+        System.out.printf("LocalDate precision is %s%n", LocalDate.now().query(query));         // Days
+        System.out.printf("LocalDateTime precision is %s%n", LocalDateTime.now().query(query)); // Nanos
+        System.out.printf("Year precision is %s%n", Year.now().query(query));                   // Years
+        System.out.printf("YearMonth precision is %s%n", YearMonth.now().query(query));         // Months
+        System.out.printf("Instant precision is %s%n", Instant.now().query(query));             // Nanos
+        System.out.println();
+
+        LocalDateTime date = LocalDateTime.of(2014, Month.DECEMBER, 02, 0, 0);
+        ZonedDateTime zonedDate1 = ZonedDateTime.of(date,
+                ZoneId.of("Pacific/Chatham"));
+        ZonedDateTime zonedDate2 = ZonedDateTime.of(date,
+                ZoneId.of("Asia/Dhaka"));
+
+        zoneQueries(zonedDate1, zonedDate2);
+
+        offsetQueries(zonedDate1, zonedDate2);
+
+        customQueries();
     }
 
-    private static void queriesInfo() {
+    private static void offsetQueries(ZonedDateTime zonedDate1, ZonedDateTime zonedDate2) {
+        TemporalQuery<ZoneOffset> query = TemporalQueries.offset();
 
-        // Smallest unit
-        TemporalQuery<TemporalUnit> precision = TemporalQueries.precision();
-        LocalDate.now().query(precision); // Days
-        LocalTime.now().query(precision); // Nanos
-        YearMonth.now().query(precision); // Months
+        ZoneOffset offset1 = zonedDate1.query(query);
+        ZoneOffset offset2 = zonedDate2.query(query);
 
-        // Custom query - check is month in school holiday
-        SchoolHolidayQuery schoolHolidayQuery = new SchoolHolidayQuery();
-
-        YearMonth yearMonth = YearMonth.of(2014, Month.JUNE);
-        Boolean isSchoolHoliday = yearMonth.query(schoolHolidayQuery); // false
-
-        YearMonth.of(2014, Month.JULY).query(schoolHolidayQuery); // true
-        YearMonth.of(2014, 8).query(schoolHolidayQuery); // true
-
-        // Custom Query - Returns a yearly quarter (custom enum)
-        YearQuarter quarter2 = YearMonth.of(2014, 6).query(YearQuarterQuery::findQuarter); // Q2
-        YearQuarter quarter4 = YearMonth.of(2011, Month.DECEMBER).query(YearQuarterQuery::findQuarter); // Q4
-
+        System.out.println(offset1); // +13:45
+        System.out.println(offset2); // +06:00
     }
 
-    private static void queries() {
-        System.out.println("queries");
-        TemporalQuery<TemporalUnit> precision = TemporalQueries.precision();
-        System.out.println(LocalDate.now().query(precision)); // Days
-        System.out.println(LocalTime.now().query(precision)); // Nanos
-        System.out.println(YearMonth.now().query(precision)); // Months
+    private static void zoneQueries(ZonedDateTime zonedDate1, ZonedDateTime zonedDate2) {
+        TemporalQuery<ZoneId> query = TemporalQueries.zone();
 
+        ZoneId zoneId1 = zonedDate1.query(query);
+        ZoneId zoneId2 = zonedDate2.query(query);
+
+        System.out.println(zoneId1); // "Pacific/Chatham"
+        System.out.println(zoneId2); // "Asia/Dhaka"
+    }
+
+    private static void customQueries() {
         YearMonth yearMonth = YearMonth.of(2014, 6);
         System.out.println(yearMonth.query(new SchoolHolidayQuery())); // false
         System.out.println(YearMonth.of(2014, Month.JULY).query(new SchoolHolidayQuery())); // true
         System.out.println(YearMonth.of(2014, 8).query(new SchoolHolidayQuery())); // true
         System.out.println();
-        System.out.println(YearMonth.of(2014, 6).query(YearQuarterQuery::findQuarter)); // Q2
-        System.out.println(YearMonth.of(2011, Month.DECEMBER).query(YearQuarterQuery::findQuarter)); // Q4
+
+        YearQuarter yearQuarter1 = YearMonth.of(2014, 6).query(YearQuarterQuery::findQuarter);
+        System.out.println(yearQuarter1); // Q2
+        YearQuarter yearQuarter2 = YearMonth.of(2011, Month.DECEMBER).query(YearQuarterQuery::findQuarter);
+        System.out.println(yearQuarter2); // Q4
+
     }
 
-    private static void space() {
-
-        System.out.println();
-        System.out.println();
-    }
 }
