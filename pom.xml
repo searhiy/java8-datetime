@@ -15,6 +15,11 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+		<!-- Time libraries -->
+		<joda.time>2.8.2</joda.time>
+		<time4j>4.6</time4j>
+		<date4j>1.5.1</date4j>
+
 		<!-- Test -->
 		<junit.version>4.11</junit.version>
 		<mockito.version>1.9.5</mockito.version>
@@ -34,11 +39,56 @@
 	</build>
 
 	<dependencies>
+		<!-- Joda Time -->
+		<!-- last release: 11-Aug-2015 -->
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
-            <version>2.8.2</version>
+            <version>${joda.time}</version>
         </dependency>
+
+		<!-- Time4j-->
+		<!-- last release: 01-Oct-2015 -->
+		<dependency>
+			<groupId>net.time4j</groupId>
+			<artifactId>time4j-core</artifactId>
+			<version>${time4j}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.time4j</groupId>
+			<artifactId>time4j-range</artifactId>
+			<version>${time4j}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.time4j</groupId>
+			<artifactId>time4j-olson</artifactId>
+			<version>${time4j}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.time4j</groupId>
+			<artifactId>time4j-misc</artifactId>
+			<version>${time4j}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.time4j</groupId>
+			<artifactId>time4j-calendar</artifactId>
+			<version>${time4j}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.time4j</groupId>
+			<artifactId>time4j-i18n</artifactId>
+			<version>${time4j}</version>
+		</dependency>
+
+		<!-- Date4j -->
+		<!-- last release: 27-Feb-2014 -->
+		<dependency>
+			<groupId>com.darwinsys</groupId>
+			<artifactId>hirondelle-date4j</artifactId>
+			<version>${date4j}</version>
+		</dependency>
+
+		<!-- Testing -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
