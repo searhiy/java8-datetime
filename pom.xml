@@ -19,6 +19,7 @@
 		<joda.time>2.8.2</joda.time>
 		<time4j>4.6</time4j>
 		<date4j>1.5.1</date4j>
+		<threeten-extra>0.9</threeten-extra>
 
 		<!-- Test -->
 		<junit.version>4.11</junit.version>
@@ -78,6 +79,14 @@
 			<groupId>net.time4j</groupId>
 			<artifactId>time4j-i18n</artifactId>
 			<version>${time4j}</version>
+		</dependency>
+
+		<!-- threeten-extra-->
+		<!-- last release: 09-Dec-2014 -->
+		<dependency>
+			<groupId>org.threeten</groupId>
+			<artifactId>threeten-extra</artifactId>
+			<version>${threeten-extra}</version>
 		</dependency>
 
 		<!-- Date4j -->
